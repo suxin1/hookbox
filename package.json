@@ -1,5 +1,5 @@
 {
-  "name": "easy-hooks",
+  "name": "ease-hooks",
   "version": "1.0.0",
   "description": "easy to use hook collection for react",
   "main": "lib/index.js",
