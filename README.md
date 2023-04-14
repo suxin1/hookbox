@@ -1,5 +1,12 @@
 <h2 align="center">Easy to use hooks</h2>
 
+## Install
+```bash
+npm install ease-hooks
+# or 
+yarn add ease-hooks
+```
+
 ## useCache
 useCache expect 4 parameter:
 1. cacheName(required): unique name for identify data.
