@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/suxin1/easy-hooks.git"
+    "url": "git+https://github.com/suxin1/ease-hooks.git"
   },
   "keywords": [
     "react",
@@ -20,7 +20,7 @@
   "author": "suxin1",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/suxin1/easy-hooks/issues"
+    "url": "https://github.com/suxin1/ease-hooks/issues"
   },
-  "homepage": "https://github.com/suxin1/easy-hooks#readme"
+  "homepage": "https://github.com/suxin1/ease-hooks#readme"
 }
