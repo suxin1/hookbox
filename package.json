@@ -1,6 +1,6 @@
 {
   "name": "ease-hooks",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "easy to use hook collection for react",
   "main": "lib/index.js",
   "scripts": {
