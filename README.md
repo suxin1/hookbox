@@ -15,7 +15,7 @@ useCache expect 4 parameter:
 4. expireDays: for how many day data will be expired.
 
 ```javascript
-import {useCache} from "easy-hooks";
+import {useCache} from "ease-hooks";
 
 function Component() {
     const [data, update, clear ] = useCache("CACHE_NAME", () => {
