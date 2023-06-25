@@ -1,11 +1,23 @@
 {
-  "name": "ease-hooks",
-  "version": "1.0.2",
+  "name": "hookbox",
+  "version": "0.1.0",
   "description": "easy to use hook collection for react",
-  "main": "lib/index.js",
+  "main": "lib/index.ts",
+  "types": "dist/index.d.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tsc",
+    "lint": "eslint --ignore-path .eslintignore --ext .js,.ts",
+    "format": "prettier --ignore-path .gitignore --write \"**/*.+(js|ts|json)\"",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prepare": "npm run build",
+    "prepublishOnly": "npm test && npm run lint",
+    "preversion": "npm run lint",
+    "version": "npm run format && git add -A src",
+    "postversion": "git push && git push --tags"
   },
+  "files": [
+    "lib/**/*"
+  ],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/suxin1/ease-hooks.git"
@@ -15,17 +27,26 @@
     "hook",
     "hooks",
     "useCache",
-    "cache"
+    "cache",
+    "bussiness logic"
   ],
   "author": "suxin1",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/suxin1/ease-hooks/issues"
+    "url": "https://github.com/suxin1/hookbox/issues"
   },
-  "homepage": "https://github.com/suxin1/ease-hooks#readme",
-  "dependencies": {
+  "homepage": "https://github.com/suxin1/hookbox#readme",
+  "devDependencies": {
+    "@types/react": "^18 .0.0",
+    "@types/react-router-dom": "^5.3.3",
+    "@typescript-eslint/eslint-plugin": "^5.60.0",
+    "@typescript-eslint/parser": "^5.60.0",
+    "eslint": "^8.43.0",
+    "eslint-config-prettier": "^8.8.0",
+    "prettier": "^2.8.8",
     "react": "^18.2.0",
-    "react-router-dom": "^6.13.0",
-    "react-usestateref": "^1.0.8"
+    "react-router-dom": "^6.14.0",
+    "react-usestateref": "^1.0.8",
+    "typescript": "^5.1.3"
   }
 }

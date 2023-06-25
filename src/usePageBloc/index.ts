@@ -1,7 +1,8 @@
-import { useEffect } from 'react';
-import useState from 'react-usestateref';
-import { useLocation } from 'react-router-dom';
-import cache from './cache';
+import { useEffect, useMemo } from "react";
+import useState from "react-usestateref";
+import { useLocation, useNavigate } from "react-router-dom";
+
+import cache from "./cache";
 
 export type TableDataResponse<T> = {
   data: T[];
@@ -16,7 +17,7 @@ type BlocOptions = {
   idKey?: string;
   selectable?: boolean;
   holdSelection?: boolean;
-  selectMode?: 'checkbox' | 'radio';
+  selectMode?: "checkbox" | "radio";
   initialization?: boolean;
   showPagination?: boolean;
   api: TableAPI;
@@ -25,10 +26,10 @@ type BlocOptions = {
 };
 
 function useTableBloc({
-  idKey = 'id',
+  idKey = "id",
   initialization = true,
   selectable = false,
-  selectMode = 'checkbox',
+  selectMode = "checkbox",
   showPagination = true,
   holdSelection = false,
   pageSizeList = [10, 20, 30, 50],
@@ -36,8 +37,9 @@ function useTableBloc({
   ...options
 }: BlocOptions) {
   const location = useLocation();
-  const cacheData = persistent ? cache.getItem(location.pathname) : {};
-
+  const [pageState, navigate] = usePageState();
+  // 选择使用缓存数据还是页面数据
+  const cacheData = persistent ? cache.getItem(location.pathname) : pageState || {};
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState<any[]>(cacheData?.data || []);
   const [params, setParams, paramsRef] = useState(cacheData?.params || {});
@@ -51,7 +53,7 @@ function useTableBloc({
   );
 
   const [selected, clearSelection, rowConfig] = useSelection({ idKey, selectable, selectMode, holdSelection });
-  console.log(pagination, 'pagination');
+
   useEffect(() => {
     if (initialization) {
       getList();
@@ -109,9 +111,14 @@ function useTableBloc({
     getList();
   }
 
-  function setFixedParamsAndGetList(params) {
-    setFixedParams(params);
-    getList();
+  function navigateTo(path: string, options?: any) {
+    const state = {
+      data,
+      params,
+      fixedParams,
+      pagination,
+    };
+    navigate(state, path, options);
   }
 
   return {
@@ -132,6 +139,7 @@ function useTableBloc({
       initialValues: params,
     },
     refresh: getList,
+    navigate: navigateTo,
     selected,
     clearSelection,
   };
@@ -192,6 +200,27 @@ function useSelection(options): [any[], () => void, any] {
   }
 
   return [selected, clearSelection, rowConfig];
+}
+
+const STATE_KEY = "PAGE_STATE";
+
+function usePageState() {
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  function push(data, path, options) {
+    navigate(location.pathname, { state: { [STATE_KEY]: data }, replace: true });
+    navigate(path, options);
+  }
+
+  const pageState = useMemo(() => {
+    if (location.state && location.state[STATE_KEY]) {
+      return location.state[STATE_KEY];
+    }
+    return null;
+  }, [location]);
+
+  return [pageState, push];
 }
 
 export default useTableBloc;

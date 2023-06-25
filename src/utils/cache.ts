@@ -1,25 +1,51 @@
-import {dataPackaging, dataUnpack} from "./utils";
+const ONE_DAY_TIME = 24 * 60 * 60 * 1000;
 
-const memoryStorage = {
-  __data__: {},
+export function dataPackaging(data, expireIn) {
+  return {
+    content: data,
+    timestamp: Date.now(),
+    expireTime: expireIn ? Date.now() + expireIn * ONE_DAY_TIME : null,
+  };
+}
+
+export function dataUnpack(packedData) {
+  if (!packedData) return null;
+  const { expireTime, content } = packedData;
+  if (expireTime) {
+    const now = Date.now();
+    if (now >= expireTime) {
+      return null;
+    }
+  }
+  return content;
+}
+
+export class MemoryStorage {
+  __data__ = {};
+
   getItem(key) {
     return this.__data__[key] || null;
-  },
+  }
+
   setItem(key, data) {
     this.__data__[key] = data;
-  },
+  }
+
   removeItem(key) {
     delete this.__data__[key];
   }
 }
 
 class Cache {
+  storage = null;
+  key = null;
+
   constructor(type, key) {
     this.key = key + "_CACHE";
 
     switch (type) {
       case 1:
-        this.storage = memoryStorage;
+        this.storage = new MemoryStorage();
         break;
       case 2:
         this.storage = sessionStorage;
@@ -28,7 +54,7 @@ class Cache {
         this.storage = localStorage;
         break;
       default:
-        this.storage = memoryStorage;
+        this.storage = new MemoryStorage();
     }
 
     this.update = this.update.bind(this);
@@ -41,7 +67,7 @@ class Cache {
   }
 
   get() {
-    return dataUnpack(JSON.parse(this.storage.getItem(this.key)))
+    return dataUnpack(JSON.parse(this.storage.getItem(this.key)));
   }
 
   update(data) {

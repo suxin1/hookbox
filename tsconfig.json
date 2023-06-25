@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "module": "esnext",
+    "target": "es6",
+    "declaration": true,
+    "outDir": "./lib",
+    "moduleResolution": "node",
+    "allowSyntheticDefaultImports": true,
+    "skipLibCheck": true
+  },
+  "exclude": ["node_modules", "lib"],
+  "include": ["src"]
+}
