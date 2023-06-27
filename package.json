@@ -8,7 +8,7 @@
     "build": "tsc",
     "lint": "eslint --ignore-path .eslintignore --ext .js,.ts",
     "format": "prettier --ignore-path .gitignore --write \"**/*.+(js|ts|json)\"",
-    "test": "echo \"Warning: no test specified\" && exit 0",
+    "test": "echo \"Error: no test specified\" && exit 0",
     "prepare": "npm run build",
     "prepublishOnly": "npm test && npm run lint",
     "preversion": "npm run lint",
@@ -20,7 +20,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/suxin1/ease-hooks.git"
+    "url": "git+https://github.com/suxin1/hookbox.git"
   },
   "keywords": [
     "react",

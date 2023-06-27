@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useCallback } from "react";
 import useState from "react-usestateref";
 import { useLocation, useNavigate } from "react-router-dom";
 
@@ -23,6 +23,7 @@ type BlocOptions = {
   api: TableAPI;
   pageSizeList?: number[];
   persistent?: boolean;
+  initialParams?: any;
 };
 
 function useTableBloc({
@@ -34,15 +35,17 @@ function useTableBloc({
   holdSelection = false,
   pageSizeList = [10, 20, 30, 50],
   persistent = false,
+  initialParams = {},
   ...options
 }: BlocOptions) {
   const location = useLocation();
   const [pageState, navigate] = usePageState();
   // 选择使用缓存数据还是页面数据
   const cacheData = persistent ? cache.getItem(location.pathname) : pageState || {};
+
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState<any[]>(cacheData?.data || []);
-  const [params, setParams, paramsRef] = useState(cacheData?.params || {});
+  const [params, setParams, paramsRef] = useState(cacheData?.params || initialParams || {});
   const [fixedParams, setFixedParams, FParams] = useState(cacheData?.fixedParams || {});
   const [pagination, setPagination, pageRef] = useState(
     cacheData?.pagination || {
@@ -92,26 +95,32 @@ function useTableBloc({
     }
   }
 
-  function onPageChange(current, pageSize) {
+  const onPageChange = useCallback((current, pageSize) => {
     setPagination({ ...pagination, current, pageSize });
     getList();
     if (!holdSelection) clearSelection();
-  }
+  }, [pagination])
 
-  function onFilterReset() {
-    setParams({});
+  const onFilterReset = useCallback(() => {
+    setParams(initialParams || {});
     setPagination({ ...pagination, current: 1 });
     getList();
-  }
+  }, [pagination]);
 
-  function onSearch(params) {
+
+  const onSearch = useCallback((params) => {
     setParams(params);
     clearSelection();
     setPagination({ ...pagination, current: 1 });
     getList();
-  }
+  }, [pagination]);
 
-  function navigateTo(path: string, options?: any) {
+  const setFixedParamsAndRefresh = useCallback((params) => {
+    setFixedParams(params);
+    getList();
+  }, []);
+
+  const  navigateTo = useCallback((path: string, options?: any) => {
     const state = {
       data,
       params,
@@ -119,7 +128,7 @@ function useTableBloc({
       pagination,
     };
     navigate(state, path, options);
-  }
+  }, [data, params, fixedParams, pagination]);
 
   return {
     tableProps: {
@@ -142,6 +151,7 @@ function useTableBloc({
     navigate: navigateTo,
     selected,
     clearSelection,
+    setFixedParamsAndRefresh,
   };
 }
 
