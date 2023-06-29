@@ -36,6 +36,9 @@
     "url": "https://github.com/suxin1/hookbox/issues"
   },
   "homepage": "https://github.com/suxin1/hookbox#readme",
+  "dependencies": {
+    "react-usestateref": "^1.0.8"
+  },
   "devDependencies": {
     "@types/react": "^18 .0.0",
     "@types/react-router-dom": "^5.3.3",
@@ -50,7 +53,6 @@
     "typescript": "^5.1.3"
   },
   "peerDependencies": {
-    "react-usestateref": ">1.0.0",
     "react": ">18.0.0",
     "react-router-dom": ">6.0.0"
   }
