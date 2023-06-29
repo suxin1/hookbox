@@ -1,4 +1,4 @@
-const ONE_DAY_TIME = 24 * 60 * 60 * 1000;
+const ONE_DAY_TIME = 1000;
 
 export function dataPackaging(data, expireIn) {
   return {

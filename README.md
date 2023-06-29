@@ -10,18 +10,22 @@ yarn add ease-hooks
 
 ## useCache
 
+This will be helpful to improve user experience.
+One is when api is slow, we can show cached data first, and update it when api returns.
 useCache expect 4 parameter:
 
 1. cacheName(required): unique name for identifying data.
 2. getter(required): this function expect to return a `Promise` like.
-3. level: 1 for memory cache, 2 for sessionStorage, 3 for localStorage.
-4. expireDays: for how many day data will be expired.
+3. level: 1 for memory cache, 2 for sessionStorage, 3 for localStorage, default is `1`.
+4. expireIn: for how many day data will be expired, count in second.
+5. forceUpdate: update every time when mounted or dependency changed, default is `false`.
+6. dependencies: dependencies, default is `[]`.
 
 ```javascript
 import {useCache} from "ease-hooks";
 
 function Component() {
-  const [data, update, clear] = useCache("CACHE_NAME", () => {
+  const [data, clear, update ] = useCache("CACHE_NAME", () => {
     return Promise.resolve(SomeData)
   }, 0, 30);
 

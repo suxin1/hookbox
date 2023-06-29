@@ -5,25 +5,25 @@
  *    2: Session Storage
  *    3: Local Storage
  */
-import { useEffect, useState, useMemo } from "react";
+import {useEffect, useState, useMemo} from "react";
 
 import Cache from "../utils/cache";
 
-function useCache(name, getter, level = 1, expireDays) {
+function useCache(name, getter, level = 1, expireIn, forceUpdate = false, dependencies = []) {
   const cache = useMemo(() => new Cache(level, name), [level, name]);
 
   const [data, setData] = useState(cache.get());
 
   useEffect(() => {
-    if (!data) {
+    if (!data || forceUpdate) {
       getter().then((res) => {
-        cache.set(res, expireDays);
+        cache.set(res, expireIn);
         setData(res);
       });
     }
-  }, []);
+  }, dependencies);
 
-  return [data, cache.update, cache.clear];
+  return [data, cache.clear, cache.update];
 }
 
 export default useCache;
