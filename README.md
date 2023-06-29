@@ -3,16 +3,16 @@
 ## Install
 
 ```bash
-npm install ease-hooks
+npm install hookbox
 # or 
-yarn add ease-hooks
+yarn add hookbox
 ```
 
 ## useCache
 
 This will be helpful to improve user experience.
 One is when api is slow, we can show cached data first, and update it when api returns.
-useCache expect 4 parameter:
+useCache parameter:
 
 1. cacheName(required): unique name for identifying data.
 2. getter(required): this function expect to return a `Promise` like.
