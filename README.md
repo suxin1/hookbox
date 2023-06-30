@@ -17,7 +17,7 @@ useCache parameter:
 1. cacheName(required): unique name for identifying data.
 2. getter(required): function to get data, <T>() => Promise<T>.
 3. level: 1 for memory cache, 2 for sessionStorage, 3 for localStorage, default is `1`.
-4. expireIn: for how many day time will be expired, count in second.
+4. expireIn: for how many time will be expired, count in second.
 5. forceUpdate: update every time when mounted or dependency changed, default is `false`.
 6. dependencies: dependencies, default is `[]`.
 
