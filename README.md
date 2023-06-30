@@ -10,7 +10,7 @@ yarn add hookbox
 
 ## useCache
 
-This will be helpful to improve user experience.
+useCache is helpful to improve user experience.
 One is when api is slow, we can show cached data first, and update it when api returns.
 useCache parameter:
 
