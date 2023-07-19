@@ -24,6 +24,7 @@ type BlocOptions = {
   pageSizeList?: number[];
   persistent?: boolean;
   initialParams?: any;
+  defaultPageSize: number;
 };
 
 function useTableBloc({
@@ -34,6 +35,7 @@ function useTableBloc({
   showPagination = true,
   holdSelection = false,
   pageSizeList = [10, 20, 30, 50],
+  defaultPageSize = 10,
   persistent = false,
   initialParams = {},
   ...options
@@ -50,7 +52,7 @@ function useTableBloc({
   const [pagination, setPagination, pageRef] = useState(
     cacheData?.pagination || {
       current: 1,
-      pageSize: 10,
+      pageSize: defaultPageSize,
       total: 0,
     },
   );
