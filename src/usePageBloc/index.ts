@@ -24,7 +24,7 @@ type BlocOptions = {
   pageSizeList?: number[];
   persistent?: boolean;
   initialParams?: any;
-  defaultPageSize: number;
+  defaultPageSize?: number;
 };
 
 function useTableBloc({
